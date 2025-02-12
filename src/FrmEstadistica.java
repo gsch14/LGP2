@@ -45,7 +45,7 @@ public class FrmEstadistica extends JFrame{
         getContentPane().add(btnEstadistica);
 
         cmbEstadistica=new JComboBox();
-        String[] opciones=new String[]{"Sumatoria", "Promedio", "División", "Máximo","Minimo", "Moda"};
+        String[] opciones=new String[]{"Sumatoria", "Promedio", "Desviación", "Máximo","Minimo", "Moda"};
         DefaultComboBoxModel mdlEstadisctica=new DefaultComboBoxModel(opciones);
         cmbEstadistica.setModel(mdlEstadisctica);
         cmbEstadistica.setBounds(110,200,100,25);
@@ -121,21 +121,66 @@ private double sumatoria(){
     double suma=0;
     for (int i = 0; i <= totalDatos; i++){
         suma = suma + muestra[i];
-    }
+    } 
 
     return suma;
 }
+    private double promedio(){
+        double promedioCalculado=0;
+        if(totalDatos>=0){
+            promedioCalculado = sumatoria() / (totalDatos + 1);
+        }
+        return promedioCalculado;
+    }
+
+    private double desviacionEstandar(){
+            double suma=0;
+            double promedioCalculado=promedio();
+            for (int i = 0; i <= totalDatos; i++){
+                suma += Math.abs(muestra[i]-promedioCalculado);
+            }
+            return totalDatos>0? suma/totalDatos:0;
+        }
+    private double maximo(){
+            double mayor = muestra[0];
+            for(int i = 1; i<= totalDatos; i++){
+                if (muestra[i] > mayor) {
+                    mayor = muestra[i];
+                }
+            }
+            return mayor;
+    }
+    private double minimo(){
+            double minimo = muestra[0];
+            for(int i = 1; i < totalDatos; i++){
+                if (muestra[i] < minimo){
+                    minimo = muestra[i];
+                }
+
+            }
+            return minimo;
+        }
+    private double moda(){}
 private void calcularEstadística(){
     switch(cmbEstadistica.getSelectedIndex()){
         case 0:
         txtEstadistica.setText(String.valueOf(sumatoria()));
            break;
         case 1:
+        txtEstadistica.setText(String.valueOf(promedio()));
            break;
+        case 2:
+        txtEstadistica.setText(String.valueOf(desviacionEstandar()));
+        break;
+        case 3:
+        txtEstadistica.setText(String.valueOf(maximo()));
+        break;
+        case 4:
+        txtEstadistica.setText(String.valueOf(minimo()));
+        break;}
     }
 }
 
 
 
 
-}
